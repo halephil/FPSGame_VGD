@@ -25,7 +25,6 @@ public class WeaponPickup : MonoBehaviour {
 		psBase.startColor = colors[(int)auraColor];
 
 		pickupHold = transform.Find("Weapon");
-		Debug.Log(pickupHold.name);
 		Instantiate(weapon.transform.GetChild(0), pickupHold).transform.position = pickupHold.position;
 	}
 	

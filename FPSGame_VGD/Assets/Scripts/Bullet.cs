@@ -24,6 +24,12 @@ public class Bullet : MonoBehaviour {
 	}
 
 	void OnCollisionEnter (Collision collision){
+		ContactPoint contact = collision.contacts[0];
+
+		if (contact.otherCollider.gameObject.CompareTag("Player")){
+			return;
+		}
+
 		if (isExplosive){
 			Collider[] colliders = Physics.OverlapSphere (transform.position, explosionRadius);
 
@@ -52,7 +58,6 @@ public class Bullet : MonoBehaviour {
 				 */
 		}
 
-		ContactPoint contact = collision.contacts[0];
 		Instantiate(collide, transform.position, Quaternion.FromToRotation(Vector3.up, contact.normal));
 		Destroy(gameObject);
 	}

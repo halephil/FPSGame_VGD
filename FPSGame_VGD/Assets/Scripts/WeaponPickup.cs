@@ -4,28 +4,26 @@ using UnityEngine;
 
 public class WeaponPickup : MonoBehaviour {
 	public GameObject weapon;
-	public AuraColor auraColor; 
+	public Color auraColor; 
 	private Transform pickupHold;
+	private ParticleSystem[] pSystems;
 	private ParticleSystem ps;
 	private ParticleSystem psBase;
 
 	// Use this for initialization
-	void Start () {
-		float alpha = 128f;
-		Color[] colors = {Color.white, Color.black, new Color(1f, .2f, .2f, alpha),
-													new Color(1f, 1f, .2f, alpha),
-													new Color(.2f, 1f, .2f, alpha),
-													new Color(.2f, .2f, 1f, alpha)};
-		
-		ps = transform.Find("Aura").GetComponent<ParticleSystem>();
-		psBase = ps.gameObject.transform.Find("Aura Base").GetComponent<ParticleSystem>();
-		ParticleSystem.MainModule main = ps.main;
-		ParticleSystem.MainModule baseMain = psBase.main;
-		main.startColor = colors[(int)auraColor];
-		psBase.startColor = colors[(int)auraColor];
+	void Start () {	
+		pSystems = GetComponentsInChildren<ParticleSystem>();
+
+		foreach (ParticleSystem aura in pSystems){
+			ParticleSystem.MainModule pMain = aura.main;
+			pMain.startColor = auraColor;
+		}
 
 		pickupHold = transform.Find("Weapon");
-		Instantiate(weapon.transform.GetChild(0), pickupHold).transform.position = pickupHold.position;
+
+		Transform weaponModel = Instantiate(weapon.transform.GetChild(0), pickupHold);
+		weaponModel.position = pickupHold.position;
+		weaponModel.localScale = new Vector3(0.4f, 0.4f, 0.4f);
 	}
 	
 	// Update is called once per frame
@@ -47,8 +45,4 @@ public class WeaponPickup : MonoBehaviour {
 			Destroy(gameObject);
 		}
 	}
-}
-
-public enum AuraColor{
-	White, Black, Red, Yellow, Green, Blue
 }

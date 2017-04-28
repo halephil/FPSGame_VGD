@@ -40,7 +40,34 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_StepCycle;
         private float m_NextStep;
         private bool m_Jumping;
+        private bool m_Teleported;
         private AudioSource m_AudioSource;
+
+        public bool Teleported
+        {
+            get
+            {
+                return m_Teleported;
+            }
+
+            set
+            {
+                m_Teleported = value;
+            }
+        }
+
+        public float GravityMultiplier
+        {
+            get
+            {
+                return m_GravityMultiplier;
+            }
+
+            set
+            {
+                m_GravityMultiplier = value;
+            }
+        }
 
         // Use this for initialization
         private void Start()
@@ -53,6 +80,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_StepCycle = 0f;
             m_NextStep = m_StepCycle/2f;
             m_Jumping = false;
+            m_Teleported = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
         }
@@ -123,7 +151,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             else
             {
-                m_MoveDir += Physics.gravity*m_GravityMultiplier*Time.fixedDeltaTime;
+                m_MoveDir += Physics.gravity*GravityMultiplier*Time.fixedDeltaTime;
             }
             m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime);
 

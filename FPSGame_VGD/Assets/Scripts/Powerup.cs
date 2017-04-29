@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Powerup : MonoBehaviour {
 	public int damageIncrease = 0;
-	public float spreadDecrease = 0.0f;
+	public float spreadIncrease = 0.0f;
 	public float shootSpeedIncrease = 0.0f;
 
 	public Color auraColor;
 
 	private ParticleSystem[] pSystems;
+	private AudioSource sound;
 
 	// Use this for initialization
 	void Start () {
 		pSystems = GetComponentsInChildren<ParticleSystem>();
+		sound = GetComponent<AudioSource>();
 
 		foreach (ParticleSystem aura in pSystems){
 			ParticleSystem.MainModule pMain = aura.main;
@@ -34,21 +36,19 @@ public class Powerup : MonoBehaviour {
 		PlayerShoot playerWeapon = other.GetComponentInChildren<PlayerShoot>();
 
 		if(playerWeapon){
-			playerWeapon.damage += damageIncrease;
-			if(playerWeapon.projectileDriftCoefficient > 0){
-				playerWeapon.projectileDriftCoefficient -= spreadDecrease;
-				if (playerWeapon.projectileDriftCoefficient < 0){
-					playerWeapon.projectileDriftCoefficient = 0;
-				}
+			playerWeapon.updateDamage(damageIncrease);
+			playerWeapon.updateShootSpeed(shootSpeedIncrease);
+			if(playerWeapon.GetType() == typeof(Shotgun)){
+				spreadIncrease *= 2.5f;
 			}
-			if(playerWeapon.shootSpeed < 1){
-				playerWeapon.shootSpeed += shootSpeedIncrease;
-				if (playerWeapon.shootSpeed > 1){
-					playerWeapon.shootSpeed = 1;
-				}
-			}
+			playerWeapon.updateDrift(spreadIncrease);
 
-			Destroy(gameObject);
+			sound.Play();
+			gameObject.GetComponent<CapsuleCollider>().enabled = false;
+			foreach(Transform item in transform){
+				item.gameObject.SetActive(false);
+			}
+			Destroy(gameObject, 1.0f);
 		}
 	}
 }

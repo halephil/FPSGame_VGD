@@ -33,14 +33,8 @@ public class WeaponPickup : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other){
 		if (other.CompareTag("Player")){
-			Transform weaponHold = other.transform.Find("Player Weapon/Weapon Position");
-			if (weaponHold.childCount > 0){
-				Destroy(weaponHold.GetChild(0).gameObject);
-			}
-
-			Transform equippedWeapon = Instantiate(weapon, weaponHold).transform;
-			equippedWeapon.position = weaponHold.position;
-			equippedWeapon.rotation = weaponHold.rotation;
+			PlayerWeaponInventory weaponInv = other.GetComponentInParent<PlayerWeaponInventory>();
+			weaponInv.addWeapon(weapon);
 
 			Destroy(gameObject);
 		}

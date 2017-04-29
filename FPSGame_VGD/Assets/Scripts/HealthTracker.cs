@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HealthTracker : MonoBehaviour {
-
+    public float forceAmount;
     public AudioClip deathSound;
     public AudioClip hurtSound;
     public AudioClip attackSound;
+   
     private int health;
     private Animation anim;
     
@@ -15,7 +16,8 @@ public class HealthTracker : MonoBehaviour {
         health = 1000;
         anim = gameObject.GetComponent<Animation>();
         GetComponent<AudioSource>().playOnAwake = false;
-        
+
+        forceAmount = 0;
 
     }
 	
@@ -32,6 +34,11 @@ public class HealthTracker : MonoBehaviour {
             anim.PlayQueued("Walk");
             GetComponent<AudioSource>().clip = attackSound;
             GetComponent<AudioSource>().Play();
+        
+            other.gameObject.GetComponent<Rigidbody>().AddForce(transform.forward *forceAmount, ForceMode.VelocityChange);
+            
+            Debug.Log(other.name);
+            
 
         }
     }

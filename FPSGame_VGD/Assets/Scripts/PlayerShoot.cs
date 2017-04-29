@@ -10,10 +10,13 @@ public class PlayerShoot : MonoBehaviour {
 	private Transform mainCameraTransform;
 	public float projectileVelocity = 30.0f;
 	public float projectileDriftCoefficient = 1.0f;
+	public float minDrift = 0f;
 	public float projectileLifetime = 1.0f;
 
 	public int damage = 10;
-	public float shootSpeed = 0.85f;
+	public int maxDamage = 50;
+	public float shootSpeed = 0.6f;
+	public float maxShootSpeed = 1.0f;
 	protected float shotTime;
 	protected float timer;
 
@@ -90,6 +93,40 @@ public class PlayerShoot : MonoBehaviour {
 		getAim();
 		animateAndSound();
 		createProjectile(damage);
+	}
+
+	public void updateDamage(int updateValue){
+		damage += updateValue;
+
+		if(damage > maxDamage){
+			damage = maxDamage;
+		}
+
+		if(damage < 5){
+			damage = 5;
+		}
+	}
+
+	public void updateShootSpeed(float updateValue){
+		shootSpeed += updateValue;
+
+		if(shootSpeed < 0.1f){
+			shootSpeed = 0.1f;
+		}
+		if(shootSpeed > maxShootSpeed){
+			shootSpeed = maxShootSpeed;
+		}
+	}
+
+	public void updateDrift(float updateValue){
+		projectileDriftCoefficient += updateValue;
+
+		if(projectileDriftCoefficient < minDrift){
+			projectileDriftCoefficient = minDrift;
+		}
+		if(projectileDriftCoefficient > 20f){
+			projectileDriftCoefficient = 20f;
+		}
 	}
 }
 

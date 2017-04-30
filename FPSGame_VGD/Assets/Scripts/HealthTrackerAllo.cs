@@ -5,18 +5,22 @@ using UnityEngine.AI;
 public class HealthTrackerAllo : MonoBehaviour
 {
     public float forceAmount;
+   
     public AudioClip deathSound;
     public AudioClip hurtSound;
     public AudioClip attackSound;
+    public GameObject player;
     private NavMeshAgent navMesh;
     private BoxCollider bxC;
-    private int health;
+    public int health;
+    public bool isAttacking;
     private Animation anim;
+    
 
     // Use this for initialization
     void Start()
     {
-        health = 1000;
+       //health = 200;
         anim = gameObject.GetComponent<Animation>();
         navMesh = GetComponent<NavMeshAgent>();
         GetComponent<AudioSource>().playOnAwake = false;
@@ -30,16 +34,58 @@ public class HealthTrackerAllo : MonoBehaviour
     {
       
         CheckHealth();
+        if(anim.IsPlaying("Allosaurus_Walk") == true || isAttacking == false )
+        {
+
+        }
+
+        else if(anim.IsPlaying("Allosaurus_Idle") == true || isAttacking == false)
+        {
+
+        }
+        else if (anim.IsPlaying("Allosaurus_Hit01") == true || isAttacking == false)
+        {
+            //Debug.Log("Hit");
+            navMesh.velocity = Vector3.zero;
+            navMesh.ResetPath();
+            navMesh.Stop();
+        }
+
+        else if (anim.IsPlaying("Allosaurus_Attack02") == true || isAttacking == false)
+        {
+            Debug.Log("Attack01");
+            navMesh.velocity = Vector3.zero;
+            navMesh.ResetPath();
+            navMesh.Stop();
+        }
+
+        else if(anim.IsPlaying("Allosaurus_Die") == true || isAttacking == false)
+        {
+            Debug.Log("Die");
+            navMesh.velocity = Vector3.zero;
+            navMesh.ResetPath();
+            navMesh.Stop();
+        }
+
+        else
+        {
+            navMesh.Resume();
+            navMesh.SetDestination(player.transform.position);
+        }
+
+        
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.name);
         if (other.name == "Player")
         {
             anim.Play("Allosaurus_Attack02");
             GetComponent<AudioSource>().clip = attackSound;
             GetComponent<AudioSource>().Play();
-            navMesh.SetDestination(GameObject.Find("Player").transform.position);
+           
             //other.gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * forceAmount, ForceMode.VelocityChange);
 
             Debug.Log(other.name);
@@ -77,6 +123,8 @@ public class HealthTrackerAllo : MonoBehaviour
             anim.CrossFade("Allosaurus_Die");
             GetComponent<AudioSource>().clip = deathSound;
             GetComponent<AudioSource>().Play();
+            navMesh.Stop();
+            navMesh.velocity = Vector3.zero;
         }
 
 
@@ -84,9 +132,19 @@ public class HealthTrackerAllo : MonoBehaviour
     }
     private void AfterHit()
     {
+       
+       gameObject.transform.parent.GetComponent<AlloValuePasser>().SetAttack(true);
+      
+       anim.Play("Allosaurus_Hit01");
+       navMesh.velocity = Vector3.zero;
+        navMesh.SetDestination(player.transform.position);
+        navMesh.Stop();
+       
+        navMesh.speed = 2.5f;
+        gameObject.transform.parent.GetComponent<AlloValuePasser>().SetAttack(true);
 
-        anim.Play("Allosaurus_Hit01");
-        anim.PlayQueued("Allosaurus_Walk");
+
+        anim.PlayQueued("Allosaurus_Run");
         Debug.Log(health);
         if (GetComponent<AudioSource>().isPlaying == false)
         {
@@ -99,6 +157,7 @@ public class HealthTrackerAllo : MonoBehaviour
     {
         if (health <= 0)
         {
+           
             if (anim.IsPlaying("Allosaurus_Die") == false)
             {
                 Destroy(gameObject);

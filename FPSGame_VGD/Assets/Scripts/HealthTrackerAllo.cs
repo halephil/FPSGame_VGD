@@ -5,7 +5,8 @@ using UnityEngine.AI;
 public class HealthTrackerAllo : MonoBehaviour
 {
     public float forceAmount;
-   
+    public float RunningSpeed;
+    public GameObject WinMenu;
     public AudioClip deathSound;
     public AudioClip hurtSound;
     public AudioClip attackSound;
@@ -14,6 +15,7 @@ public class HealthTrackerAllo : MonoBehaviour
     private BoxCollider bxC;
     public int health;
     public bool isAttacking;
+    private bool IsDead;
     private Animation anim;
     
 
@@ -24,7 +26,7 @@ public class HealthTrackerAllo : MonoBehaviour
         anim = gameObject.GetComponent<Animation>();
         navMesh = GetComponent<NavMeshAgent>();
         GetComponent<AudioSource>().playOnAwake = false;
-        
+        IsDead = false;
         forceAmount = 0;
 
     }
@@ -120,11 +122,15 @@ public class HealthTrackerAllo : MonoBehaviour
 
         if (health <= 0)
         {
-            anim.CrossFade("Allosaurus_Die");
-            GetComponent<AudioSource>().clip = deathSound;
-            GetComponent<AudioSource>().Play();
-            navMesh.Stop();
-            navMesh.velocity = Vector3.zero;
+            if (IsDead == false)
+            {
+                IsDead = true;
+                anim.CrossFade("Allosaurus_Die");
+                GetComponent<AudioSource>().clip = deathSound;
+                GetComponent<AudioSource>().Play();
+                navMesh.Stop();
+                navMesh.velocity = Vector3.zero;
+            }
         }
 
 
@@ -140,7 +146,7 @@ public class HealthTrackerAllo : MonoBehaviour
         navMesh.SetDestination(player.transform.position);
         navMesh.Stop();
        
-        navMesh.speed = 2.5f;
+        navMesh.speed = RunningSpeed;
         gameObject.transform.parent.GetComponent<AlloValuePasser>().SetAttack(true);
 
 
@@ -160,6 +166,11 @@ public class HealthTrackerAllo : MonoBehaviour
            
             if (anim.IsPlaying("Allosaurus_Die") == false)
             {
+                if(gameObject.transform.parent.gameObject.tag == "Boss")
+                {
+                    Time.timeScale = 0;
+                    WinMenu.SetActive(true);
+                }
                 Destroy(gameObject.transform.parent.gameObject);
             }
 

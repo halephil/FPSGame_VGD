@@ -22,7 +22,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Update is called once per frame
         void Update()
         {
-            transform.Rotate(new Vector3(0, 230, 0) * Time.deltaTime);
+            if (gameObject.tag != "Player")
+            {
+                transform.Rotate(new Vector3(0, 150, 0) * Time.deltaTime);
+                
+            }
+
             movePlayerUpDown();
         }
 
@@ -63,16 +68,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (moveUpDown == true)
             {
+                Debug.Log(moveUpDown);
+                Debug.Log(Teleported);
                 if (moveUp == true && Teleported == false)
                 {
-
+                    Debug.Log("Up");
                     colGO.transform.position = colGO.transform.position + (new Vector3(0, 3f, 0) * Time.deltaTime);
                     if (colGO.transform.position.y >= (colINTPOS.y + 4))
                     {
                         Debug.Log("Moveing Up");
                         colFLYPOS = colGO.transform.position + new Vector3(2, 0, 2);
                         moveUp = false;
-
+                        
                         colGO.GetComponent<TeleportedTracker>().Teleported = true;
                         Debug.Log(colGO.transform.position);
                         colGO.transform.position = TelTo + new Vector3(1.5f, 0, 1.5f);

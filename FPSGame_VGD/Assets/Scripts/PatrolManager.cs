@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class PatrolManager : MonoBehaviour {
-
+    public float WalkSpeed;
     public GameObject ObjectToMove;
     public bool beingAttacked;
     public float ChangePathTime;
@@ -62,7 +62,7 @@ public class PatrolManager : MonoBehaviour {
                     ObjectToMove.GetComponent<Animation>().PlayQueued("Allosaurus_Walk");
                     newWayPointNeeded = true;
                     gameObject.transform.parent.GetComponent<AlloValuePasser>().SetAttack(false);
-                    agent.speed = 1;
+                    agent.speed = WalkSpeed;
                     //agent.SetDestination(lastCol.gameObject.transform.position);
                 }
             }

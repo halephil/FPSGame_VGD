@@ -26,6 +26,8 @@ public class LevelManager : MonoBehaviour {
         quitButton.GetComponent<Button>().onClick.AddListener(quitButtonHandler);
         returnToMainMenuButton.GetComponent<Button>().onClick.AddListener(returnToMainMenuHandler);
         Mcamera.transform.position = new Vector3(19, 3.5f, -0.6f);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 	
 	// Update is called once per frame

@@ -86,8 +86,8 @@ public class PatrolManager : MonoBehaviour {
         if (beingAttacked == false)
         {
 
-            Debug.Log(other.name);
-            Debug.Log(ObjectToMove.name);
+            //Debug.Log(other.name);
+           // Debug.Log(ObjectToMove.name);
             if (other.name == ObjectToMove.name)
             {
                 lastCol = other;

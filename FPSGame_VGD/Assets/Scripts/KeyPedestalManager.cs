@@ -22,7 +22,7 @@ public class KeyPedestalManager : MonoBehaviour {
 				hasKey = hasKey && pedestal.hasKey();
 		    }
 			mAllKeysPlaced = hasKey;
-			Debug.Log("All Keys Placed: " + mAllKeysPlaced);
+			//Debug.Log("All Keys Placed: " + mAllKeysPlaced);
 		}
         else
         {

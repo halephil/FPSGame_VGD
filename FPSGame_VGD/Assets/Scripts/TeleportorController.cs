@@ -10,9 +10,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private GameObject colGO;
         private bool moveUpDown = false;
         private bool moveUp = false;
-       
+
         private bool Teleported = true;
-        private Vector3 colINTPOS, colFLYPOS , TelTo;
+        private Vector3 colINTPOS, colFLYPOS, TelTo;
         // Use this for initialization
         void Start()
         {
@@ -29,7 +29,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.name == "Player")
+            if (other.name == "Player" && gameObject.name != "Player")
             {
                 Teleported = other.GetComponent<TeleportedTracker>().Teleported;
 
@@ -39,7 +39,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     Debug.Log(Teleported);
                     if (other.name == "Player")
                     {
-                        
+
                         moveUpDown = true;
                         other.GetComponent<FirstPersonController>().GravityMultiplier = 0;
                         other.GetComponent<FirstPersonController>().StickToGroundForce = 0;
@@ -60,19 +60,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void movePlayerUpDown()
         {
-            
+
             if (moveUpDown == true)
             {
-                if(moveUp == true && Teleported == false)
+                if (moveUp == true && Teleported == false)
                 {
-                    
-                   colGO.transform.position = colGO.transform.position + (new Vector3(0, 3f, 0) * Time.deltaTime);
+
+                    colGO.transform.position = colGO.transform.position + (new Vector3(0, 3f, 0) * Time.deltaTime);
                     if (colGO.transform.position.y >= (colINTPOS.y + 4))
                     {
                         Debug.Log("Moveing Up");
-                        colFLYPOS = colGO.transform.position + new Vector3(2,0,2);
+                        colFLYPOS = colGO.transform.position + new Vector3(2, 0, 2);
                         moveUp = false;
-                       
+
                         colGO.GetComponent<TeleportedTracker>().Teleported = true;
                         Debug.Log(colGO.transform.position);
                         colGO.transform.position = TelTo + new Vector3(1.5f, 0, 1.5f);
@@ -82,7 +82,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
                 else
                 {
-                    
+
                     colGO.transform.position = colGO.transform.position - (new Vector3(0f, 3f, 0) * Time.deltaTime);
                     if (colGO.transform.position.y <= (TeleportTo.transform.position.y + 1))
                     {
@@ -97,13 +97,40 @@ namespace UnityStandardAssets.Characters.FirstPerson
                         //PlaceIcon();
                     }
                 }
-                
+
             }
 
         }
 
-      
+        public void manualTeleport()
+        {
+            Teleported = false;
+            Debug.Log("Manual Teleport");
+            Debug.Log(Teleported);
+            if (Teleported == false)
+            {
+                Debug.Log(gameObject.name);
+                Debug.Log(Teleported);
+                if (gameObject.name == "Player")
+                {
+
+                    moveUpDown = true;
+                    gameObject.GetComponent<FirstPersonController>().GravityMultiplier = 0;
+                    gameObject.GetComponent<FirstPersonController>().StickToGroundForce = 0;
+                    gameObject.GetComponent<Rigidbody>().useGravity = false;
+                    moveUp = true;
+                    colGO = gameObject.transform.gameObject;
+                    colINTPOS = gameObject.transform.position;
+                    TelTo = TeleportTo.transform.position;//TeleportTo.transform.position;
+
+                    TelTo.y = TelTo.y + 4f;
+                    Debug.Log(TelTo);
+                }
+            }
+
+
+
+        }
 
     }
-
 }

@@ -69,6 +69,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+        public float StickToGroundForce
+        {
+            get
+            {
+                return m_StickToGroundForce;
+            }
+
+            set
+            {
+                m_StickToGroundForce = value;
+            }
+        }
+
         // Use this for initialization
         private void Start()
         {

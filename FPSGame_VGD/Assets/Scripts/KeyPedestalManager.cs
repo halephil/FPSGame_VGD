@@ -9,27 +9,39 @@ public class KeyPedestalManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        GameObject.Find("BossTeleportorA").SetActive(false);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(!mAllKeysPlaced){
+		if(!mAllKeysPlaced)
+        {
 			bool hasKey = true;
-			foreach(Pedestal pedestal in pedestalsInScene){
+			foreach(Pedestal pedestal in pedestalsInScene)
+            {
 				hasKey = hasKey && pedestal.hasKey();
-			}
+		    }
 			mAllKeysPlaced = hasKey;
-			// Debug.Log("All Keys Placed: " + allKeysPlaced);
-		} else{
-			if(eventTriggered == false){
-				onAllKeysPlaced();
-			}
+			Debug.Log("All Keys Placed: " + mAllKeysPlaced);
 		}
+        else
+        {
+
+            //Do some action here when all keys are placed on all pedestals
+            
+           
+
+            if(eventTriggered == false)
+            {
+               onAllKeysPlaced();
+            }
+        }
 	}
 
 	private void onAllKeysPlaced(){
 		eventTriggered = true;
+
+        GameObject.Find("Teleportors").GetComponent<ActivateTeleportors>().ActivateBossTele();
 		//Do some action here when all keys are placed on all pedestals
 
 		Debug.Log("All Keys Placed");

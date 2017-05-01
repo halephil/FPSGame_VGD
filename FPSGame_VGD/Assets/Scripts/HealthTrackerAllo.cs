@@ -79,7 +79,7 @@ public class HealthTrackerAllo : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
+        //Debug.Log(other.name);
         if (other.name == "Player")
         {
             anim.Play("Allosaurus_Attack02");
@@ -88,14 +88,14 @@ public class HealthTrackerAllo : MonoBehaviour
            
             //other.gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * forceAmount, ForceMode.VelocityChange);
 
-            Debug.Log(other.name);
+            //Debug.Log(other.name);
             anim.PlayQueued("Allosaurus_Walk");
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
         if (collision.gameObject.name == "Bullet(Clone)")
         {
             health = health - 5;
@@ -145,7 +145,7 @@ public class HealthTrackerAllo : MonoBehaviour
 
 
         anim.PlayQueued("Allosaurus_Run");
-        Debug.Log(health);
+        //Debug.Log(health);
         if (GetComponent<AudioSource>().isPlaying == false)
         {
             GetComponent<AudioSource>().clip = hurtSound;
@@ -160,7 +160,7 @@ public class HealthTrackerAllo : MonoBehaviour
            
             if (anim.IsPlaying("Allosaurus_Die") == false)
             {
-                Destroy(gameObject);
+                Destroy(gameObject.transform.parent.gameObject);
             }
 
 

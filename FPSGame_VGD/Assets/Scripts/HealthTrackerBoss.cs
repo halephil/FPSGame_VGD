@@ -97,7 +97,7 @@ public class HealthTrackerBoss : MonoBehaviour {
         {
             if (anim.IsPlaying("Stand Die") == false)
             {
-                Destroy(gameObject);
+             
             }
             
           

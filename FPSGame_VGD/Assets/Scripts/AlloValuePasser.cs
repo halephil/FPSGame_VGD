@@ -19,4 +19,9 @@ public class AlloValuePasser : MonoBehaviour {
         gameObject.transform.FindChild("Patrol Manager").GetComponent<PatrolManager>().beingAttacked = attacking;
         gameObject.transform.FindChild("Allosaurus w_BodyC").GetComponent<HealthTrackerAllo>().isAttacking = attacking;
     }
+
+    public void DestroyAllo()
+    {
+        Destroy(gameObject);
+    } 
 }

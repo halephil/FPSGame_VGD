@@ -40,7 +40,7 @@ public class PatrolManager : MonoBehaviour {
     private void checkforSamePos()
     {
         currentPOS = gameObject.transform.position;
-        Debug.Log(ObjectToMove.GetComponent<Animation>().IsPlaying("Allosaurus_Idle"));
+        //Debug.Log(ObjectToMove.GetComponent<Animation>().IsPlaying("Allosaurus_Idle"));
         //Debug.Log(time);
         if(ObjectToMove.GetComponent<Animation>().IsPlaying("Allosaurus_Idle") == false)
         {
@@ -55,7 +55,7 @@ public class PatrolManager : MonoBehaviour {
                 time = Time.deltaTime + time;
                 if (time > ChangePathTime)
                 {
-                    Debug.Log(time);
+                    //Debug.Log(time);
                     time = 0;
                     ObjectToMove.GetComponent<Animation>()["Allosaurus_Idle"].wrapMode = WrapMode.Once;
                     ObjectToMove.GetComponent<Animation>().CrossFade("Allosaurus_Idle");
@@ -86,6 +86,8 @@ public class PatrolManager : MonoBehaviour {
         if (beingAttacked == false)
         {
 
+            Debug.Log(other.name);
+            Debug.Log(ObjectToMove.name);
             if (other.name == ObjectToMove.name)
             {
                 lastCol = other;
@@ -93,11 +95,11 @@ public class PatrolManager : MonoBehaviour {
                 {
                     index = Random.Range(0, gameObject.transform.childCount);
                 }
-                Debug.Log(index);
+                //Debug.Log(index);
                 oldIndex = index;
                 agent.SetDestination(gameObject.transform.GetChild(index).position);
                 agent.Resume();
-                Debug.Log("Child Picked: " + gameObject.transform.GetChild(index).name);
+                //Debug.Log("Child Picked: " + gameObject.transform.GetChild(index).name);
 
                 time = 0;
             }

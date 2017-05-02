@@ -16,7 +16,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
        
         public Text HealthText;
         public Text LivesText;
-        
+
+        public Image damageImage;
+        public float flashSpeed = 5f;
+        public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
+        bool damaged;
+
 
         // Use this for initialization
         void Start() {
@@ -30,6 +35,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Update is called once per frame
         void Update() {
             checkHealth();
+            if (damaged)
+            {
+                // ... set the colour of the damageImage to the flash colour.
+                damageImage.color = flashColour;
+            }
+            // Otherwise...
+            else
+            {
+                // ... transition the colour back to clear.
+                damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+            }
+            damaged = false;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -38,10 +55,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             Debug.Log(other.transform.tag);
             if (other.transform.tag == "Dino")
             {
+                
                 if (other.gameObject.GetComponent<Animation>().IsPlaying("Allosaurus_Attack02") == true)
                 {
                     if (currentHealth > 0)
                     {
+                        damaged = true;
                         currentHealth = currentHealth - AllosaurusDamage;
                         HealthText.text = "Health: " + currentHealth.ToString();
                     }
@@ -50,10 +69,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (other.transform.tag == "Boss")
             {
+                
                 if (other.gameObject.GetComponent<Animation>().IsPlaying("Allosaurus_Attack02") == true)
                 {
                     if (currentHealth > 0)
                     {
+                        damaged = true;
                         currentHealth = currentHealth - BossDamage;
                         HealthText.text = "Health: " + currentHealth.ToString();
                     }

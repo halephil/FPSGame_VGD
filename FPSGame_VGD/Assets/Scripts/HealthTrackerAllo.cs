@@ -17,6 +17,8 @@ public class HealthTrackerAllo : MonoBehaviour
     public bool isAttacking;
     private bool IsDead;
     private Animation anim;
+    public GameObject blood;
+    public float ltime;
     
 
     // Use this for initialization
@@ -34,7 +36,11 @@ public class HealthTrackerAllo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      
+        ltime = 1;
+        GameObject b = GameObject.Find("BloodEffect(Clone)");
+        GameObject c = GameObject.Find("BloodEffect2(Clone)");
+        Destroy(b, ltime);
+        Destroy(c, ltime);
         CheckHealth();
         if(anim.IsPlaying("Allosaurus_Walk") == true || isAttacking == false )
         {
@@ -48,6 +54,7 @@ public class HealthTrackerAllo : MonoBehaviour
         else if (anim.IsPlaying("Allosaurus_Hit01") == true || isAttacking == false)
         {
             //Debug.Log("Hit");
+            
             navMesh.velocity = Vector3.zero;
             navMesh.ResetPath();
             navMesh.Stop();
@@ -56,6 +63,7 @@ public class HealthTrackerAllo : MonoBehaviour
         else if (anim.IsPlaying("Allosaurus_Attack02") == true || isAttacking == false)
         {
             Debug.Log("Attack01");
+            
             navMesh.velocity = Vector3.zero;
             navMesh.ResetPath();
             navMesh.Stop();
@@ -101,19 +109,24 @@ public class HealthTrackerAllo : MonoBehaviour
         if (collision.gameObject.name == "Bullet(Clone)")
         {
             health = health - 5;
+            Instantiate(blood, transform.position, transform.rotation);
             AfterHit();
         }
 
         else if (collision.gameObject.name == "Rocket(Clone)")
         {
             health = health - 20;
+            Instantiate(blood, transform.position, transform.rotation);
             AfterHit();
+      
         }
 
         else if (collision.gameObject.name == "Grenade(Clone)")
         {
             health = health - 10;
+            Instantiate(blood, transform.position, transform.rotation);
             AfterHit();
+            
         }
         else
         {
@@ -132,14 +145,16 @@ public class HealthTrackerAllo : MonoBehaviour
                 navMesh.velocity = Vector3.zero;
             }
         }
+        
 
 
 
     }
     private void AfterHit()
     {
-       
-       gameObject.transform.parent.GetComponent<AlloValuePasser>().SetAttack(true);
+        
+        
+        gameObject.transform.parent.GetComponent<AlloValuePasser>().SetAttack(true);
       
        anim.Play("Allosaurus_Hit01");
        navMesh.velocity = Vector3.zero;
@@ -161,6 +176,7 @@ public class HealthTrackerAllo : MonoBehaviour
 
     void CheckHealth()
     {
+        
         if (health <= 0)
         {
            

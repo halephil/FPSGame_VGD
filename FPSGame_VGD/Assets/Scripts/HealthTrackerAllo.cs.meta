@@ -1,10 +1,16 @@
 fileFormatVersion: 2
 guid: d059380ffb1952f44986b1aa04c9b2c4
-timeCreated: 1493503087
+timeCreated: 1493694985
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - WinMenu: {instanceID: 0}
+  - deathSound: {instanceID: 0}
+  - hurtSound: {instanceID: 0}
+  - attackSound: {instanceID: 0}
+  - player: {instanceID: 0}
+  - blood: {fileID: 1716999324728828, guid: dc5691e25c519db4891ebb851d6cbc53, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

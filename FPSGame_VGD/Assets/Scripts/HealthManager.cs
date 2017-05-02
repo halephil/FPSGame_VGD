@@ -79,7 +79,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 if (NumberOfLives > 0)
                 {
                     RemoveLife();
-                    HealthText.text = "Health: 0";
+                    HealthText.text = "Health: 100";
                     LivesText.text = "Lives: " + NumberOfLives.ToString();
                     currentHealth = 100;
                     gameObject.GetComponent<TeleportorController>().manualTeleport();

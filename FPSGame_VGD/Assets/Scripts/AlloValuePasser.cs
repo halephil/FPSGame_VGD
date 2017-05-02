@@ -11,7 +11,7 @@ public class AlloValuePasser : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		//test
 	}
 
     public void SetAttack(bool attacking)

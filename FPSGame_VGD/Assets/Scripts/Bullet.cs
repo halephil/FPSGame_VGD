@@ -25,6 +25,7 @@ public class Bullet : MonoBehaviour {
 
 	void OnCollisionEnter (Collision collision){
 		ContactPoint contact = collision.contacts[0];
+		Debug.Log(contact.otherCollider.gameObject.name);
 
 		if (contact.otherCollider.gameObject.CompareTag("Player")){
 			return;
@@ -39,23 +40,13 @@ public class Bullet : MonoBehaviour {
 				if(targetBody){
 					targetBody.AddExplosionForce(explosionForce, transform.position, explosionRadius);
 				}
-
-				//Deal explosive damage to enemy
-				/*
-				HealthScript enemyHealth = collider.GetComponent<HealthScript>();
-				if (enemyHealth){
-					explosion damage calculations...
-				}
-				*/
 			}
-		} else{
-				//Deal non-explosive damage to enemy
-				/*
-				HealthScript enemyHealth = collision.collider.GetComponent<HealthScript>();
-				if (enemyHealth){
-					enemyHealth.dealDamage(bulletDamage);
-				}
-				 */
+		}
+
+		HealthTrackerAllo enemyHealth = collision.collider.GetComponentInParent<HealthTrackerAllo>();
+		if (enemyHealth){
+			enemyHealth.takeDamage(bulletDamage);
+			// Debug.Log(bulletDamage);
 		}
 
 		Instantiate(collide, transform.position, Quaternion.FromToRotation(Vector3.up, contact.normal));

@@ -54,7 +54,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void OnTriggerEnter(Collider other)
         {
          
-            Debug.Log(other.transform.tag);
+            // Debug.Log(other.transform.tag);
             if (other.transform.tag == "Dino")
             {
                 

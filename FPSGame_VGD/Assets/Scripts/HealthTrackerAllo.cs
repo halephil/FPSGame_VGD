@@ -103,40 +103,14 @@ public class HealthTrackerAllo : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        //Debug.Log(collision.gameObject.name);
-        if (collision.gameObject.name == "Bullet(Clone)")
-        {
-            health = health - 5;
-            Instantiate(blood, transform.position, transform.rotation);
-            AfterHit();
-        }
+    //Called by bullet script when bullet hits collider
+    public void takeDamage(int damage){
+        health = health - damage;
+        Instantiate(blood, transform.position, transform.rotation);
+        AfterHit();
 
-        else if (collision.gameObject.name == "Rocket(Clone)")
-        {
-            health = health - 20;
-            Instantiate(blood, transform.position, transform.rotation);
-            AfterHit();
-      
-        }
-
-        else if (collision.gameObject.name == "Grenade(Clone)")
-        {
-            health = health - 10;
-            Instantiate(blood, transform.position, transform.rotation);
-            AfterHit();
-            
-        }
-        else
-        {
-
-        }
-
-        if (health <= 0)
-        {
-            if (IsDead == false)
-            {
+        if (health <= 0){
+            if (IsDead == false){
                 IsDead = true;
                 anim.CrossFade("Allosaurus_Die");
                 GetComponent<AudioSource>().clip = deathSound;
@@ -145,11 +119,52 @@ public class HealthTrackerAllo : MonoBehaviour
                 navMesh.velocity = Vector3.zero;
             }
         }
-        
-
-
-
     }
+
+    // private void OnCollisionEnter(Collision collision)
+    // {
+    //     //Debug.Log(collision.gameObject.name);
+    //     if (collision.gameObject.name == "Bullet(Clone)")
+    //     {
+    //         health = health - 5;
+    //         Instantiate(blood, transform.position, transform.rotation);
+    //         AfterHit();
+    //     }
+
+    //     else if (collision.gameObject.name == "Rocket(Clone)")
+    //     {
+    //         health = health - 20;
+    //         Instantiate(blood, transform.position, transform.rotation);
+    //         AfterHit();
+      
+    //     }
+
+    //     else if (collision.gameObject.name == "Grenade(Clone)")
+    //     {
+    //         health = health - 10;
+    //         Instantiate(blood, transform.position, transform.rotation);
+    //         AfterHit();
+            
+    //     }
+    //     else
+    //     {
+
+    //     }
+
+    //     if (health <= 0)
+    //     {
+    //         if (IsDead == false)
+    //         {
+    //             IsDead = true;
+    //             anim.CrossFade("Allosaurus_Die");
+    //             GetComponent<AudioSource>().clip = deathSound;
+    //             GetComponent<AudioSource>().Play();
+    //             navMesh.Stop();
+    //             navMesh.velocity = Vector3.zero;
+    //         }
+    //     }
+    // }
+
     private void AfterHit()
     {
         

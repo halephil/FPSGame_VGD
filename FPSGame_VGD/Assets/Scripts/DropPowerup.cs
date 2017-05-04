@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DropPowerup : MonoBehaviour {
-	public GameObject powerupPrefab;
-	public int dropChance = 100;
+	public GameObject[] powerups;
+	public int powerupDropChance = 50;
+
+	public GameObject key;
+	public int keyDropChance = 50;
 
 	// Use this for initialization
 	void Start () {
@@ -17,11 +20,17 @@ public class DropPowerup : MonoBehaviour {
 	}
 
 	void OnDestroy(){
-		int num = Mathf.RoundToInt(Random.Range(0f, 100f));
-		
-		if(num <= dropChance){
-			Vector3 pos = new Vector3(transform.position.x, 1, transform.position.z);
-			Transform powerup = Instantiate(powerupPrefab, pos, powerupPrefab.transform.rotation).transform;
+		float dropNum = Random.Range(0f, 100f);
+		if(dropNum <= powerupDropChance){
+			Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+			int selectNum = Random.Range(0, powerups.Length);
+			Instantiate(powerups[selectNum], pos, powerups[selectNum].transform.rotation);
+		}
+
+		dropNum = Random.Range(0f, 100f);
+		if(dropNum <= keyDropChance){
+			Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1.2f, transform.position.z);
+			Instantiate(key, pos, transform.rotation);
 		}
 	}
 }

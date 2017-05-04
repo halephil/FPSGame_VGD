@@ -42,6 +42,8 @@ public class KeyPedestalManager : MonoBehaviour {
 		eventTriggered = true;
 
         GameObject.Find("Teleportors").GetComponent<ActivateTeleportors>().ActivateBossTele();
+		GameObject.Find("Enemy Spawn Manager").SetActive(false);
+		GameObject.Find("Allo_wNavBoss").GetComponentInChildren(typeof(HealthTrackerAllo), true).gameObject.SetActive(true);
 		//Do some action here when all keys are placed on all pedestals
 
 		Debug.Log("All Keys Placed");

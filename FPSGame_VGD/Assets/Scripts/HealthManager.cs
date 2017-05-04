@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UnityStandardAssets.Characters.FirstPerson
-{
-
-    public class HealthManager : MonoBehaviour {
+   public class HealthManager : MonoBehaviour {
         public GameObject GameOverMenu;
         public int MaxHealth;
         public int NumberOfLives;
@@ -95,6 +92,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+        public void takeDamage(int damage){
+            currentHealth -= damage;
+            damaged = true;
+            HealthText.text = "Health: " + currentHealth.ToString();
+        }
+
         private void checkHealth()
         {
             if (currentHealth <= 0)
@@ -123,4 +126,3 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
     }
 
-}

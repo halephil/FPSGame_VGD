@@ -25,12 +25,14 @@ public class HealthTrackerAllo : MonoBehaviour
     
     public int damage;
     private bool isDead = false;
+    private ParticleSystem bloodSplat;
 
     // Use this for initialization
     void Start()
     {
         anim = gameObject.GetComponent<Animation>();
         navMesh = GetComponent<NavMeshAgent>();
+        bloodSplat = GetComponentInChildren<ParticleSystem>();
 
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerHealth = player.GetComponent<HealthManager>();
@@ -91,6 +93,9 @@ public class HealthTrackerAllo : MonoBehaviour
             anim.Play("Allosaurus_Hit01");
         } else{
             anim.Play("Allosaurus_Hit02");
+        }
+        if(bloodSplat){
+            bloodSplat.Play();
         }
         anim.PlayQueued("Allosaurus_Run");
         GetComponent<AudioSource>().clip = hurtSound;
